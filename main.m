@@ -32,6 +32,18 @@
     NSLog(@"App Bundle ID: %@", bundleID);
 }
 
+- (void)application:(NSApplication *)application didReceiveRemoteNotification:(NSDictionary<NSString *, id> *)userInfo  {
+    NSLog(@"Received Push Notification: %@", userInfo);
+    // Handle the push notification
+}
+
+/*
+- (void)application:(NSApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken NS_SWIFT_UI_ACTOR API_AVAILABLE(macos(10.7));
+- (void)application:(NSApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error NS_SWIFT_UI_ACTOR API_AVAILABLE(macos(10.7));
+- (void)application:(NSApplication *)application didReceiveRemoteNotification:(NSDictionary<NSString *, id> *)userInfo NS_SWIFT_UI_ACTOR API_AVAILABLE(macos(10.7));
+*/
+
+
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
 didReceiveNotificationResponse:(UNNotificationResponse *)response
          withCompletionHandler:(void (^)(void))completionHandler {

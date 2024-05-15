@@ -4,6 +4,8 @@ This is a binary for testing if you can send Apple Push Notifications to a daemo
 
 # Building
 
+1. Define CODESIGN_HASH for codesigning
+1. Run `make`
 
 
 # Setting up Push Notifications.

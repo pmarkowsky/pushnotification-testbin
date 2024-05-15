@@ -6,15 +6,26 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 @end
 
-
 @implementation AppDelegate
 
+- (NSString *)hexStringFromData:(NSData *)data {
+    if (!data || [data length] == 0) {
+        return @"";
+    }
+    
+    NSMutableString *hexString = [NSMutableString stringWithCapacity:[data length] * 2];
+    const unsigned char *bytes = [data bytes];
+    
+    for (NSUInteger i = 0; i < [data length]; i++) {
+        [hexString appendFormat:@"%02x", bytes[i]];
+    }
+    
+    return hexString;
+}
+
 - (void)application:(NSApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSString *tokenString = [[deviceToken description]
-                             stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-    tokenString = [tokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *tokenString = [self hexStringFromData:deviceToken];
     NSLog(@"Device Token: %@", tokenString);
-    // Register the device token with your server
 }
 
 - (void)application:(NSApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -24,25 +35,28 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    NSApplication *app = [NSApplication sharedApplication];
     NSLog(@"Finished Launching!");
-    [[NSApplication sharedApplication] registerForRemoteNotifications];
+    NSLog(@"Notification: %@", aNotification);
+    [app registerForRemoteNotifications];
     NSLog(@"Registered for push notifications");
     // Print the bundle ID
     NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
     NSLog(@"App Bundle ID: %@", bundleID);
+    if (app.registeredForRemoteNotifications) {
+        NSLog(@"we think we're registered");
+    } else {
+        NSLog(@"Not registered");
+    }
+    /*
+    NSLog(@"Remote notifications: %lu", [[NSApplication sharedApplication] enabledRemoteNotificationTypes]);
+     */
 }
 
 - (void)application:(NSApplication *)application didReceiveRemoteNotification:(NSDictionary<NSString *, id> *)userInfo  {
     NSLog(@"Received Push Notification: %@", userInfo);
     // Handle the push notification
 }
-
-/*
-- (void)application:(NSApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken NS_SWIFT_UI_ACTOR API_AVAILABLE(macos(10.7));
-- (void)application:(NSApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error NS_SWIFT_UI_ACTOR API_AVAILABLE(macos(10.7));
-- (void)application:(NSApplication *)application didReceiveRemoteNotification:(NSDictionary<NSString *, id> *)userInfo NS_SWIFT_UI_ACTOR API_AVAILABLE(macos(10.7));
-*/
-
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
 didReceiveNotificationResponse:(UNNotificationResponse *)response
@@ -54,7 +68,6 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 
     completionHandler();
 }
-
 @end
 
 int main(int argc, const char *argv[]) {

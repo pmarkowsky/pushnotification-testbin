@@ -4,7 +4,7 @@ This is a binary for testing if you can send Apple Push Notifications to a daemo
 
 # Building
 
-1. Define CODESIGN_HASH for codesigning
+1. Define CODESIGN_ID for code signing
 1. Run `make`
 
 
@@ -20,6 +20,7 @@ This is a binary for testing if you can send Apple Push Notifications to a daemo
 # Actually Sending a Push Notification
 
  1. Use a tool like [https://github.com/sideshow/apns2](https://github.com/sideshow/apns2)
+ 1. Use Apple's [push notification console](https://developer.apple.com/notifications/push-notifications-console/)
 
 # Resources
 

@@ -16,7 +16,10 @@ This is a binary for testing if you can send Apple Push Notifications to a daemo
   1. On the Capabilities tab, scroll down and check the Push Notifications capability.
   1.  Save your changes.
   1. Create an auth token
-  1. Create a push
+
+# Actually Sending a Push Notification
+
+ 1. Use a tool like [https://github.com/sideshow/apns2](https://github.com/sideshow/apns2)
 
 # Resources
 
